@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class CharSiew {
     public static void main(String[] args) throws CharSiewException {
@@ -10,8 +11,7 @@ public class CharSiew {
 
         Scanner scanner = new Scanner(System.in);
         String input;
-        Task[] tasks = new Task[100];
-        int taskCount = 0;
+        ArrayList<Task> tasks = new ArrayList<>();
 
         while (true) {
             input = scanner.nextLine();
@@ -25,19 +25,19 @@ public class CharSiew {
 
                 } else if (input.equals("list")) {
                     System.out.println("____________________________________________________________");
-                    for (int i = 0; i < taskCount; i++) {
-                        System.out.println(" " + (i + 1) + ". " + tasks[i].toString());
+                    for (int i = 0; i < tasks.size(); i++) {
+                        System.out.println(" " + (i + 1) + ". " + tasks.get(i));
                     }
                     System.out.println("____________________________________________________________");
 
 
                 } else if (input.startsWith("mark ")) {
                     int index = Integer.parseInt(input.substring(5)) - 1;
-                    if (index >= 0 && index < taskCount) {
-                        tasks[index].markAsDone();
+                    if (index >= 0 && index < tasks.size()) {
+                        tasks.get(index).markAsDone();
                         System.out.println("____________________________________________________________");
                         System.out.println(" Nice! Treat yourself with more Char Siew :)");
-                        System.out.println("   " + tasks[index]);
+                        System.out.println("   " + tasks.get(index));
                         System.out.println("____________________________________________________________");
                     } else {
                         throw new CharSiewException("Task number is out of range. Mind your boundaries, even with Char Siew!");
@@ -45,11 +45,11 @@ public class CharSiew {
 
                 } else if (input.startsWith("unmark ")) {
                     int index = Integer.parseInt(input.substring(7)) - 1;
-                    if (index >= 0 && index < taskCount) {
-                        tasks[index].markAsNotDone();
+                    if (index >= 0 && index < tasks.size()) {
+                        tasks.get(index).markAsNotDone();
                         System.out.println("____________________________________________________________");
                         System.out.println(" Noted! Energise yourself with more Char Siew ;)");
-                        System.out.println("   " + tasks[index]);
+                        System.out.println("   " + tasks.get(index));
                         System.out.println("____________________________________________________________");
                     } else {
                         throw new CharSiewException("Task number is out of range. Mind your boundaries, even with Char Siew!");
@@ -62,8 +62,8 @@ public class CharSiew {
                         throw new CharSiewException("Enlighten me... What's the todo exactly? O_o");
                     }
                     Task t = new Todo(desc);
-                    tasks[taskCount++] = t;
-                    printAddedTask(t, taskCount);
+                    tasks.add(t);
+                    printAddedTask(t, tasks.size());
 
                 } else if (input.startsWith("deadline")) {
                     String[] parts = input.substring(8).split("/by", 2);
@@ -71,8 +71,8 @@ public class CharSiew {
                         throw new CharSiewException("Enlighten me... What's the thing and when is it due exactly? O_o");
                     }
                     Task t = new Deadline(parts[0].trim(), parts[1].trim());
-                    tasks[taskCount++] = t;
-                    printAddedTask(t, taskCount);
+                    tasks.add(t);
+                    printAddedTask(t, tasks.size());
 
                 } else if (input.startsWith("event")) {
                     String[] parts = input.substring(5).split("/from|/to");
@@ -80,8 +80,21 @@ public class CharSiew {
                         throw new CharSiewException("Enlighten me... What's the event and when does it happen exactly? O_o");
                     }
                     Task t = new Event(parts[0].trim(), parts[1].trim(), parts[2].trim());
-                    tasks[taskCount++] = t;
-                    printAddedTask(t, taskCount);
+                    tasks.add(t);
+                    printAddedTask(t, tasks.size());
+
+
+                } else if (input.startsWith("delete ")) {
+                    int index = Integer.parseInt(input.substring(7).trim()) - 1;
+                    if (index < 0 || index >= tasks.size()) {
+                        throw new CharSiewException("Index out of range. Mind your boundaries, even with Char Siew!");
+                    }
+                    Task removed = tasks.remove(index);
+                    System.out.println("____________________________________________________________");
+                    System.out.println(" Noted. I've removed this task:");
+                    System.out.println("   " + removed);
+                    System.out.println(" Now you have " + tasks.size() + " tasks in the plate.");
+                    System.out.println("____________________________________________________________");
 
 
                 } else {
@@ -95,7 +108,7 @@ public class CharSiew {
                 System.out.println("____________________________________________________________");
             } catch (NumberFormatException e) {
                 System.out.println("____________________________________________________________");
-                System.out.println(" Task number should literally be a number... Show me (or your mom) you're better than a piece of Char Siew!");
+                System.out.println(" Task number should literally be a positive integer... Show me (or your mom) you're better than a piece of Char Siew!");
                 System.out.println("____________________________________________________________");
             }
         }
