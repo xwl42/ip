@@ -72,7 +72,7 @@ public class CharSiew {
                 }
             }
         }
-
+        // Level-1
         scanner.close();
     }
 }
