@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class CharSiew {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CharSiewException {
         // Greeting
         System.out.println("____________________________________________________________");
         System.out.println(" Hey there! I'm Char Siew, the chatbot your mom wishes you were.");
@@ -15,64 +15,88 @@ public class CharSiew {
 
         while (true) {
             input = scanner.nextLine();
-
-            if (input.equals("bye")) {
-                System.out.println("____________________________________________________________");
-                System.out.println(" See you soon! May your life be less roasted than me.");
-                System.out.println("____________________________________________________________");
-                break;
-
-
-            } else if (input.equals("list")) {
-                System.out.println("____________________________________________________________");
-                for (int i = 0; i < taskCount; i++) {
-                    System.out.println(" " + (i + 1) + ". " + tasks[i].toString());
-                }
-                System.out.println("____________________________________________________________");
-
-
-            } else if (input.startsWith("mark ")) {
-                int index = Integer.parseInt(input.substring(5)) - 1;
-                if (index >= 0 && index < taskCount) {
-                    tasks[index].markAsDone();
+            try {
+                if (input.equals("bye")) {
                     System.out.println("____________________________________________________________");
-                    System.out.println(" Nice! Treat yourself with more Char Siew :)");
-                    System.out.println("   " + tasks[index]);
+                    System.out.println(" See you soon! May your life be less roasted than me.");
                     System.out.println("____________________________________________________________");
+                    break;
+
+
+                } else if (input.equals("list")) {
+                    System.out.println("____________________________________________________________");
+                    for (int i = 0; i < taskCount; i++) {
+                        System.out.println(" " + (i + 1) + ". " + tasks[i].toString());
+                    }
+                    System.out.println("____________________________________________________________");
+
+
+                } else if (input.startsWith("mark ")) {
+                    int index = Integer.parseInt(input.substring(5)) - 1;
+                    if (index >= 0 && index < taskCount) {
+                        tasks[index].markAsDone();
+                        System.out.println("____________________________________________________________");
+                        System.out.println(" Nice! Treat yourself with more Char Siew :)");
+                        System.out.println("   " + tasks[index]);
+                        System.out.println("____________________________________________________________");
+                    } else {
+                        throw new CharSiewException("Task number is out of range. Mind your boundaries, even with Char Siew!");
+                    }
+
+                } else if (input.startsWith("unmark ")) {
+                    int index = Integer.parseInt(input.substring(7)) - 1;
+                    if (index >= 0 && index < taskCount) {
+                        tasks[index].markAsNotDone();
+                        System.out.println("____________________________________________________________");
+                        System.out.println(" Noted! Energise yourself with more Char Siew ;)");
+                        System.out.println("   " + tasks[index]);
+                        System.out.println("____________________________________________________________");
+                    } else {
+                        throw new CharSiewException("Task number is out of range. Mind your boundaries, even with Char Siew!");
+                    }
+
+
+                } else if (input.startsWith("todo")) {
+                    String desc = input.substring(4).trim();
+                    if (desc.isEmpty()) {
+                        throw new CharSiewException("Enlighten me... What's the todo exactly? O_o");
+                    }
+                    Task t = new Todo(desc);
+                    tasks[taskCount++] = t;
+                    printAddedTask(t, taskCount);
+
+                } else if (input.startsWith("deadline")) {
+                    String[] parts = input.substring(8).split("/by", 2);
+                    if (parts.length < 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
+                        throw new CharSiewException("Enlighten me... What's the thing and when is it due exactly? O_o");
+                    }
+                    Task t = new Deadline(parts[0].trim(), parts[1].trim());
+                    tasks[taskCount++] = t;
+                    printAddedTask(t, taskCount);
+
+                } else if (input.startsWith("event")) {
+                    String[] parts = input.substring(5).split("/from|/to");
+                    if (parts.length < 3 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty() || parts[2].trim().isEmpty()) {
+                        throw new CharSiewException("Enlighten me... What's the event and when does it happen exactly? O_o");
+                    }
+                    Task t = new Event(parts[0].trim(), parts[1].trim(), parts[2].trim());
+                    tasks[taskCount++] = t;
+                    printAddedTask(t, taskCount);
+
+
                 } else {
-                    System.out.println(" Invalid task number.");
-                }
-
-            } else if (input.startsWith("unmark ")) {
-                int index = Integer.parseInt(input.substring(7)) - 1;
-                if (index >= 0 && index < taskCount) {
-                    tasks[index].markAsNotDone();
-                    System.out.println("____________________________________________________________");
-                    System.out.println(" Noted! Energise yourself with more Char Siew ;)");
-                    System.out.println("   " + tasks[index]);
-                    System.out.println("____________________________________________________________");
-                } else {
-                    System.out.println(" Invalid task number.");
+                    throw new CharSiewException("I'm not too sure what you mean... I'm just a simple-minded piece of Char Siew o_O ");
                 }
 
 
-            } else if (input.startsWith("todo")) {
-                String desc = input.substring(4).trim();
-                Task t = new Todo(desc);
-                tasks[taskCount++] = t;
-                printAddedTask(t, taskCount);
-
-            } else if (input.startsWith("deadline")) {
-                String[] parts = input.substring(8).split("/by", 2);
-                Task t = new Deadline(parts[0].trim(), parts[1].trim());
-                tasks[taskCount++] = t;
-                printAddedTask(t, taskCount);
-
-            } else if (input.startsWith("event")) {
-                String[] parts = input.substring(5).split("/from|/to");
-                Task t = new Event(parts[0].trim(), parts[1].trim(), parts[2].trim());
-                tasks[taskCount++] = t;
-                printAddedTask(t, taskCount);
+            } catch (CharSiewException e) {
+                System.out.println("____________________________________________________________");
+                System.out.println(" " + e.getMessage());
+                System.out.println("____________________________________________________________");
+            } catch (NumberFormatException e) {
+                System.out.println("____________________________________________________________");
+                System.out.println(" Task number should literally be a number... Show me (or your mom) you're better than a piece of Char Siew!");
+                System.out.println("____________________________________________________________");
             }
         }
 
