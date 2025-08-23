@@ -36,13 +36,12 @@ public class CharSiew {
                 if (index >= 0 && index < taskCount) {
                     tasks[index].markAsDone();
                     System.out.println("____________________________________________________________");
-                    System.out.println(" Okie! Treat yourself with more Char Siew :)");
+                    System.out.println(" Nice! Treat yourself with more Char Siew :)");
                     System.out.println("   " + tasks[index]);
                     System.out.println("____________________________________________________________");
                 } else {
                     System.out.println(" Invalid task number.");
                 }
-
 
             } else if (input.startsWith("unmark ")) {
                 int index = Integer.parseInt(input.substring(7)) - 1;
@@ -57,22 +56,35 @@ public class CharSiew {
                 }
 
 
-            } else {
-                // Store the task
-                if (taskCount < tasks.length) {
-                    tasks[taskCount] = new Task(input);
-                    taskCount++;
-                    System.out.println("____________________________________________________________");
-                    System.out.println(" added: " + input);
-                    System.out.println("____________________________________________________________");
-                } else {
-                    System.out.println("____________________________________________________________");
-                    System.out.println(" Task list is full! Enough of Char Siew for the day.");
-                    System.out.println("____________________________________________________________");
-                }
+            } else if (input.startsWith("todo")) {
+                String desc = input.substring(4).trim();
+                Task t = new Todo(desc);
+                tasks[taskCount++] = t;
+                printAddedTask(t, taskCount);
+
+            } else if (input.startsWith("deadline")) {
+                String[] parts = input.substring(8).split("/by", 2);
+                Task t = new Deadline(parts[0].trim(), parts[1].trim());
+                tasks[taskCount++] = t;
+                printAddedTask(t, taskCount);
+
+            } else if (input.startsWith("event")) {
+                String[] parts = input.substring(5).split("/from|/to");
+                Task t = new Event(parts[0].trim(), parts[1].trim(), parts[2].trim());
+                tasks[taskCount++] = t;
+                printAddedTask(t, taskCount);
             }
         }
-        // Level-3
+
         scanner.close();
+    }
+
+    private static void printAddedTask(Task t, int count) {
+        System.out.println("____________________________________________________________");
+        System.out.println(" Got it. I've added this task:");
+        System.out.println("   " + t.toString());
+        System.out.println(" Now you have " + count + " tasks in the plate.");
+        System.out.println(" Remember not to burn yourself out... or your Char Siew! ");
+        System.out.println("____________________________________________________________");
     }
 }
