@@ -5,10 +5,10 @@ public class Event extends Task {
     protected LocalDate from;
     protected LocalDate to;
 
-    public Event(String name, String from, String to) {
+    public Event(String name, LocalDate from, LocalDate to) {
         super(name);
-        this.from = LocalDate.parse(from);
-        this.to = LocalDate.parse(to);
+        this.from = from;
+        this.to = to;
     }
 
     public LocalDate getFrom() {

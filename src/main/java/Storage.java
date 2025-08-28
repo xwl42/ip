@@ -1,8 +1,8 @@
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Storage {
@@ -14,9 +14,9 @@ public class Storage {
 
     /**
      * Loads tasks from the storage file.
-     * If the file/folder doesn't exist, returns an empty list.
+     * If the file/folder doesn't exist, returns an empty TaskList.
      */
-    public List<Task> load() throws IOException {
+    public TaskList load() throws IOException {
         File file = new File(filePath);
         if (!file.exists()) {
             // Create parent folder if missing
@@ -25,10 +25,10 @@ public class Storage {
                 parentDir.mkdirs();
             }
             // Return empty task list (first-time run)
-            return new ArrayList<>();
+            return new TaskList();
         }
 
-        List<Task> tasks = new ArrayList<>();
+        ArrayList<Task> tasks = new ArrayList<>();
         Scanner sc = new Scanner(file);
         while (sc.hasNextLine()) {
             String line = sc.nextLine();
@@ -38,15 +38,15 @@ public class Storage {
             }
         }
         sc.close();
-        return tasks;
+        return new TaskList(tasks);
     }
 
     /**
      * Saves tasks into the storage file.
      */
-    public void save(List<Task> tasks) throws IOException {
+    public void save(TaskList taskList) throws IOException {
         FileWriter fw = new FileWriter(filePath);
-        for (Task t : tasks) {
+        for (Task t : taskList.getAllTasks()) {
             fw.write(formatTask(t) + System.lineSeparator());
         }
         fw.close();
@@ -64,23 +64,23 @@ public class Storage {
             String name = parts[2];
 
             switch (type) {
-            case "T":
-                Todo todo = new Todo(name);
-                if (isDone) todo.markAsDone();
-                return todo;
-            case "D":
-                String by = parts[3];
-                Deadline deadline = new Deadline(name, by);
-                if (isDone) deadline.markAsDone();
-                return deadline;
-            case "E":
-                String from = parts[3];
-                String to = parts[4];
-                Event event = new Event(name, from, to);
-                if (isDone) event.markAsDone();
-                return event;
-            default:
-                return null; // corrupted line
+                case "T":
+                    Todo todo = new Todo(name);
+                    if (isDone) todo.markAsDone();
+                    return todo;
+                case "D":
+                    LocalDate by = LocalDate.parse(parts[3]); // yyyy-MM-dd
+                    Deadline deadline = new Deadline(name, by);
+                    if (isDone) deadline.markAsDone();
+                    return deadline;
+                case "E":
+                    LocalDate from = LocalDate.parse(parts[3]);
+                    LocalDate to = LocalDate.parse(parts[4]);
+                    Event event = new Event(name, from, to);
+                    if (isDone) event.markAsDone();
+                    return event;
+                default:
+                    return null; // corrupted line
             }
         } catch (Exception e) {
             // corrupted line

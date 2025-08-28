@@ -4,9 +4,9 @@ import java.time.format.DateTimeFormatter;
 public class Deadline extends Task {
     protected LocalDate by;
 
-    public Deadline(String name, String by) {
+    public Deadline(String name, LocalDate by) {
         super(name);
-        this.by = LocalDate.parse(by); // expects yyyy-MM-dd
+        this.by = by; // expects yyyy-MM-dd
     }
 
     public LocalDate getBy() {
