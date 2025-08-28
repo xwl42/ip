@@ -19,6 +19,14 @@ public class Task {
         return (isDone ? "X" : " "); // X if done, space if not
     }
 
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String toString() {
         return "[" + getStatusIcon() + "] " + name;
