@@ -1,3 +1,4 @@
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -15,6 +16,15 @@ public class CharSiew {
         System.out.println("____________________________________________________________");
         System.out.println(" Hey there! I'm Char Siew, the chatbot your mom wishes you were.");
         System.out.println(" What can I do for you today?");
+        System.out.println("   Command                                 Effect ");
+        System.out.println(" - list                                    show all tasks");
+        System.out.println(" - todo task_name                          add a new todo task");
+        System.out.println(" - deadline task_name /by yyyy-mm-dd       add a new deadline");
+        System.out.println(" - event /from yyyy-mm-dd /to yyyy-mm-dd   add a new event");
+        System.out.println(" - mark task_index                         mark the task done");
+        System.out.println(" - unmark task_index                       mark the task undone");
+        System.out.println(" - delete task_index                       delete the task");
+        System.out.println(" - bye                                     exit");
         System.out.println("____________________________________________________________");
 
         Scanner scanner = new Scanner(System.in);
@@ -118,20 +128,33 @@ public class CharSiew {
                     if (parts.length < 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
                         throw new CharSiewException("Enlighten me... What's the thing and when is it due exactly? O_o");
                     }
-                    Task t = new Deadline(parts[0].trim(), parts[1].trim());
-                    tasks.add(t);
-                    printAddedTask(t, tasks.size());
-                    saveTasks(tasks);
+
+                    try {
+                        Task t = new Deadline(parts[0].trim(), parts[1].trim());
+                        tasks.add(t);
+                        printAddedTask(t, tasks.size());
+                        tasks.add(t);
+                        printAddedTask(t, tasks.size());
+                        saveTasks(tasks);
+                    } catch (DateTimeParseException e) {
+                        throw new CharSiewException("Hmmm... The date must be in yyyy-mm-dd format.");
+                    }
+
 
                 } else if (input.startsWith("event")) {
                     String[] parts = input.substring(5).split("/from|/to");
                     if (parts.length < 3 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty() || parts[2].trim().isEmpty()) {
                         throw new CharSiewException("Enlighten me... What's the event and when does it happen exactly? O_o");
                     }
-                    Task t = new Event(parts[0].trim(), parts[1].trim(), parts[2].trim());
-                    tasks.add(t);
-                    printAddedTask(t, tasks.size());
-                    saveTasks(tasks);
+
+                    try {
+                        Task t = new Event(parts[0].trim(), parts[1].trim(), parts[2].trim());
+                        tasks.add(t);
+                        printAddedTask(t, tasks.size());
+                        saveTasks(tasks);
+                    } catch (DateTimeParseException e) {
+                        throw new CharSiewException("Hmmm... The date must be in yyyy-mm-dd format.");
+                    }
 
 
                 } else if (input.startsWith("delete ")) {
