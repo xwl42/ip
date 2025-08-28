@@ -1,0 +1,5 @@
+T | 0 | eat
+E | 1 | hi | 1am | 3am
+D | 0 | sleeep | 3am
+T | 0 | hey
+E | 1 | book | 4 | 6

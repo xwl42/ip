@@ -1,7 +1,15 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.IOException;
+
 public class CharSiew {
+    private static final String FILE_PATH = "./data/char_siew_tasks.txt";
+
     public static void main(String[] args) throws CharSiewException {
         // Greeting
         System.out.println("____________________________________________________________");
@@ -12,6 +20,43 @@ public class CharSiew {
         Scanner scanner = new Scanner(System.in);
         String input;
         ArrayList<Task> tasks = new ArrayList<>();
+
+
+        // Load tasks from file if it exists
+        File file = new File(FILE_PATH);
+        if (file.exists()) {
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] parts = line.split(" \\| ");
+                    String type = parts[0];
+                    boolean isDone = parts[1].equals("1");
+                    String name = parts[2];
+
+                    Task t = null;
+                    switch (type) {
+                    case "T":
+                        t = new Todo(name);
+                        break;
+                    case "D":
+                        t = new Deadline(name, parts[3]);
+                        break;
+                    case "E":
+                        t = new Event(name, parts[3], parts[4]);
+                        break;
+                    }
+
+                    if (t != null && isDone) {
+                        t.markAsDone();
+                    }
+
+                    tasks.add(t);
+                }
+            } catch (IOException e) {
+                System.out.println("Failed to load tasks: " + e.getMessage());
+            }
+        }
+
 
         while (true) {
             input = scanner.nextLine();
@@ -35,6 +80,7 @@ public class CharSiew {
                     int index = Integer.parseInt(input.substring(5)) - 1;
                     if (index >= 0 && index < tasks.size()) {
                         tasks.get(index).markAsDone();
+                        saveTasks(tasks);
                         System.out.println("____________________________________________________________");
                         System.out.println(" Nice! Treat yourself with more Char Siew :)");
                         System.out.println("   " + tasks.get(index));
@@ -47,6 +93,7 @@ public class CharSiew {
                     int index = Integer.parseInt(input.substring(7)) - 1;
                     if (index >= 0 && index < tasks.size()) {
                         tasks.get(index).markAsNotDone();
+                        saveTasks(tasks);
                         System.out.println("____________________________________________________________");
                         System.out.println(" Noted! Energise yourself with more Char Siew ;)");
                         System.out.println("   " + tasks.get(index));
@@ -64,6 +111,7 @@ public class CharSiew {
                     Task t = new Todo(desc);
                     tasks.add(t);
                     printAddedTask(t, tasks.size());
+                    saveTasks(tasks);
 
                 } else if (input.startsWith("deadline")) {
                     String[] parts = input.substring(8).split("/by", 2);
@@ -73,6 +121,7 @@ public class CharSiew {
                     Task t = new Deadline(parts[0].trim(), parts[1].trim());
                     tasks.add(t);
                     printAddedTask(t, tasks.size());
+                    saveTasks(tasks);
 
                 } else if (input.startsWith("event")) {
                     String[] parts = input.substring(5).split("/from|/to");
@@ -82,6 +131,7 @@ public class CharSiew {
                     Task t = new Event(parts[0].trim(), parts[1].trim(), parts[2].trim());
                     tasks.add(t);
                     printAddedTask(t, tasks.size());
+                    saveTasks(tasks);
 
 
                 } else if (input.startsWith("delete ")) {
@@ -90,6 +140,7 @@ public class CharSiew {
                         throw new CharSiewException("Index out of range. Mind your boundaries, even with Char Siew!");
                     }
                     Task removed = tasks.remove(index);
+                    saveTasks(tasks);
                     System.out.println("____________________________________________________________");
                     System.out.println(" Noted. I've removed this task:");
                     System.out.println("   " + removed);
@@ -124,4 +175,31 @@ public class CharSiew {
         System.out.println(" Remember not to burn yourself out... or your Char Siew! ");
         System.out.println("____________________________________________________________");
     }
+
+    private static void saveTasks(ArrayList<Task> tasks) {
+        File file = new File(FILE_PATH);
+        File parentDir = file.getParentFile();
+        if (parentDir != null && !parentDir.exists()) {
+            parentDir.mkdirs(); // ensure folder exists
+        }
+
+        try (FileWriter fw = new FileWriter(file)) {
+            for (Task t : tasks) {
+                String line = "";
+                if (t instanceof Todo) {
+                    line = "T | " + (t.isDone() ? "1" : "0") + " | " + t.getName();
+                } else if (t instanceof Deadline) {
+                    Deadline d = (Deadline) t;
+                    line = "D | " + (d.isDone() ? "1" : "0") + " | " + d.getName() + " | " + d.getBy();
+                } else if (t instanceof Event) {
+                    Event e = (Event) t;
+                    line = "E | " + (e.isDone() ? "1" : "0") + " | " + e.getName() + " | " + e.getFrom() + " | " + e.getTo();
+                }
+                fw.write(line + System.lineSeparator());
+            }
+        } catch (IOException e) {
+            System.out.println("Failed to save tasks: " + e.getMessage());
+        }
+    }
+
 }
