@@ -8,9 +8,18 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Handles reading from and writing to the storage file.
+ * Provides methods to load tasks from file into a TaskList and save tasks back to the file.
+ */
 public class Storage {
     private final String filePath;
 
+    /**
+     * Constructs a Storage object with the given file path.
+     *
+     * @param filePath Path to the file where tasks are stored.
+     */
     public Storage(String filePath) {
         this.filePath = filePath;
     }
@@ -18,16 +27,17 @@ public class Storage {
     /**
      * Loads tasks from the storage file.
      * If the file/folder doesn't exist, returns an empty TaskList.
+     *
+     * @return TaskList containing all loaded tasks.
+     * @throws IOException If there is an error reading the file.
      */
     public TaskList load() throws IOException {
         File file = new File(filePath);
         if (!file.exists()) {
-            // Create parent folder if missing
             File parentDir = file.getParentFile();
             if (parentDir != null && !parentDir.exists()) {
                 parentDir.mkdirs();
             }
-            // Return empty task list (first-time run)
             return new TaskList();
         }
 
@@ -45,7 +55,10 @@ public class Storage {
     }
 
     /**
-     * Saves tasks into the storage file.
+     * Saves tasks from the TaskList into the storage file.
+     *
+     * @param taskList TaskList to save.
+     * @throws IOException If there is an error writing to the file.
      */
     public void save(TaskList taskList) throws IOException {
         FileWriter fw = new FileWriter(filePath);
@@ -56,8 +69,11 @@ public class Storage {
     }
 
     /**
-     * Parse a line of text into a Task object.
-     * Example format: "T | 1 | read book"
+     * Parses a line of text from the file into a Task object.
+     * Example line format: "T | 1 | read book"
+     *
+     * @param line Line of text from file.
+     * @return Task object corresponding to the line, or null if the line is corrupted.
      */
     private Task parseTask(String line) {
         try {
@@ -72,7 +88,7 @@ public class Storage {
                 if (isDone) todo.markAsDone();
                 return todo;
             case "D":
-                LocalDate by = LocalDate.parse(parts[3]); // yyyy-MM-dd
+                LocalDate by = LocalDate.parse(parts[3]);
                 Deadline deadline = new Deadline(name, by);
                 if (isDone) deadline.markAsDone();
                 return deadline;
@@ -86,13 +102,15 @@ public class Storage {
                 return null; // corrupted line
             }
         } catch (Exception e) {
-            // corrupted line
-            return null;
+            return null; // corrupted line
         }
     }
 
     /**
-     * Converts a Task into savable string format.
+     * Converts a Task object into a line of text for saving to file.
+     *
+     * @param task Task to format.
+     * @return String representing the task in file format.
      */
     private String formatTask(Task task) {
         String status = task.isDone() ? "1" : "0";
