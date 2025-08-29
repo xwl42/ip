@@ -77,6 +77,7 @@ public class Ui {
         showLine();
         if (tasks.size() == 0) {
             System.out.println("Your task list is empty!");
+            showLine();
             return;
         }
 
