@@ -36,6 +36,8 @@ public class Parser {
             return new DeleteCommand(Integer.parseInt(words[1]));
         case "bye":
             return new ByeCommand();
+        case "find":
+            return new FindCommand(words[1].trim());
         default:
             throw new Exception("I'm not too sure what that means...");
         }
