@@ -2,7 +2,19 @@ package charsiew.parser;
 
 import charsiew.command.*;
 
+/**
+ * Parses user input into corresponding Command objects.
+ * Acts as the bridge between raw user input and command execution.
+ */
 public class Parser {
+
+    /**
+     * Parses a raw input string and returns the appropriate Command.
+     *
+     * @param input Raw string entered by the user.
+     * @return A Command object corresponding to the input.
+     * @throws Exception If the input cannot be parsed into a valid command.
+     */
     public static Command parse(String input) throws Exception {
         String[] words = input.trim().split(" ", 2);
         String commandWord = words[0];
