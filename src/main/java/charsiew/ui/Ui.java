@@ -1,3 +1,7 @@
+package charsiew.ui;
+
+import charsiew.task.Task;
+import charsiew.task.TaskList;
 import java.util.Scanner;
 
 public class Ui {

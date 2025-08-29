@@ -1,3 +1,7 @@
+package charsiew.parser;
+
+import charsiew.command.*;
+
 public class Parser {
     public static Command parse(String input) throws Exception {
         String[] words = input.trim().split(" ", 2);

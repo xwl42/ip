@@ -1,3 +1,11 @@
+package charsiew;
+
+import charsiew.task.TaskList;
+import charsiew.command.Command;
+import charsiew.ui.Ui;
+import charsiew.parser.Parser;
+import charsiew.storage.Storage;
+
 import java.util.Scanner;
 
 public class CharSiew {

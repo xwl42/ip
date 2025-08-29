@@ -1,3 +1,9 @@
+package charsiew.command;
+
+import charsiew.task.TaskList;
+import charsiew.ui.Ui;
+import charsiew.storage.Storage;
+
 public abstract class Command {
     /**
      * Executes the command.

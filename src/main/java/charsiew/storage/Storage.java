@@ -1,3 +1,6 @@
+package charsiew.storage;
+
+import charsiew.task. *;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -64,23 +67,23 @@ public class Storage {
             String name = parts[2];
 
             switch (type) {
-                case "T":
-                    Todo todo = new Todo(name);
-                    if (isDone) todo.markAsDone();
-                    return todo;
-                case "D":
-                    LocalDate by = LocalDate.parse(parts[3]); // yyyy-MM-dd
-                    Deadline deadline = new Deadline(name, by);
-                    if (isDone) deadline.markAsDone();
-                    return deadline;
-                case "E":
-                    LocalDate from = LocalDate.parse(parts[3]);
-                    LocalDate to = LocalDate.parse(parts[4]);
-                    Event event = new Event(name, from, to);
-                    if (isDone) event.markAsDone();
-                    return event;
-                default:
-                    return null; // corrupted line
+            case "T":
+                Todo todo = new Todo(name);
+                if (isDone) todo.markAsDone();
+                return todo;
+            case "D":
+                LocalDate by = LocalDate.parse(parts[3]); // yyyy-MM-dd
+                Deadline deadline = new Deadline(name, by);
+                if (isDone) deadline.markAsDone();
+                return deadline;
+            case "E":
+                LocalDate from = LocalDate.parse(parts[3]);
+                LocalDate to = LocalDate.parse(parts[4]);
+                Event event = new Event(name, from, to);
+                if (isDone) event.markAsDone();
+                return event;
+            default:
+                return null; // corrupted line
             }
         } catch (Exception e) {
             // corrupted line
@@ -92,15 +95,15 @@ public class Storage {
      * Converts a Task into savable string format.
      */
     private String formatTask(Task task) {
-        String status = task.isDone ? "1" : "0";
+        String status = task.isDone() ? "1" : "0";
         if (task instanceof Todo) {
-            return "T | " + status + " | " + task.name;
+            return "T | " + status + " | " + task.getName();
         } else if (task instanceof Deadline) {
             Deadline d = (Deadline) task;
-            return "D | " + status + " | " + d.name  + " | " + d.by;
+            return "D | " + status + " | " + d.getName()  + " | " + d.getBy();
         } else if (task instanceof Event) {
             Event e = (Event) task;
-            return "E | " + status + " | " + e.name + " | " + e.from + " | " + e.to;
+            return "E | " + status + " | " + e.getName() + " | " + e.getFrom() + " | " + e.getTo();
         }
         return "";
     }
