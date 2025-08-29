@@ -22,7 +22,7 @@ public class Ui {
         System.out.println(" - bye                                     exit");
         showLine();
     }
-    
+
     public void showBye() {
         showLine();
         System.out.println(" See you soon! May your life be less roasted than me. ");

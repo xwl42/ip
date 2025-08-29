@@ -1,6 +1,6 @@
 package charsiew.storage;
 
-import charsiew.task. *;
+import charsiew.task.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -100,7 +100,7 @@ public class Storage {
             return "T | " + status + " | " + task.getName();
         } else if (task instanceof Deadline) {
             Deadline d = (Deadline) task;
-            return "D | " + status + " | " + d.getName()  + " | " + d.getBy();
+            return "D | " + status + " | " + d.getName() + " | " + d.getBy();
         } else if (task instanceof Event) {
             Event e = (Event) task;
             return "E | " + status + " | " + e.getName() + " | " + e.getFrom() + " | " + e.getTo();
