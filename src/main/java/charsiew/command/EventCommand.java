@@ -1,12 +1,12 @@
 package charsiew.command;
 
-import charsiew.task.TaskList;
-import charsiew.task.Task;
-import charsiew.task.Event;
-import charsiew.ui.Ui;
-import charsiew.storage.Storage;
 import java.io.IOException;
 import java.time.LocalDate;
+import charsiew.storage.Storage;
+import charsiew.task.Event;
+import charsiew.task.Task;
+import charsiew.task.TaskList;
+import charsiew.ui.Ui;
 
 /**
  * Represents a command to add an Event task to the TaskList.

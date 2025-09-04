@@ -1,8 +1,8 @@
 package charsiew.ui;
 
+import java.util.Scanner;
 import charsiew.task.Task;
 import charsiew.task.TaskList;
-import java.util.Scanner;
 
 /**
  * Handles all interactions with the user.

@@ -1,6 +1,15 @@
 package charsiew.parser;
 
-import charsiew.command.*;
+import charsiew.command.ByeCommand;
+import charsiew.command.Command;
+import charsiew.command.DeadlineCommand;
+import charsiew.command.DeleteCommand;
+import charsiew.command.EventCommand;
+import charsiew.command.FindCommand;
+import charsiew.command.ListCommand;
+import charsiew.command.MarkCommand;
+import charsiew.command.TodoCommand;
+import charsiew.command.UnmarkCommand;
 
 /**
  * Parses user input into corresponding Command objects.

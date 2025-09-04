@@ -1,9 +1,9 @@
 package charsiew.command;
 
+import java.io.IOException;
+import charsiew.storage.Storage;
 import charsiew.task.TaskList;
 import charsiew.ui.Ui;
-import charsiew.storage.Storage;
-import java.io.IOException;
 
 /**
  * Represents a command that finds and lists all tasks

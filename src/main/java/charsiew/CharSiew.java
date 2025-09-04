@@ -1,12 +1,11 @@
 package charsiew;
 
-import charsiew.task.TaskList;
+import java.util.Scanner;
 import charsiew.command.Command;
-import charsiew.ui.Ui;
 import charsiew.parser.Parser;
 import charsiew.storage.Storage;
-
-import java.util.Scanner;
+import charsiew.task.TaskList;
+import charsiew.ui.Ui;
 
 /**
  * The main CharSiew chatbot application class.

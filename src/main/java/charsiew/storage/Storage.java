@@ -1,12 +1,16 @@
 package charsiew.storage;
 
-import charsiew.task.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
+import charsiew.task.Deadline;
+import charsiew.task.Event;
+import charsiew.task.Task;
+import charsiew.task.TaskList;
+import charsiew.task.Todo;
 
 /**
  * Handles reading from and writing to the storage file.
@@ -85,18 +89,25 @@ public class Storage {
             switch (type) {
             case "T":
                 Todo todo = new Todo(name);
-                if (isDone) todo.markAsDone();
+                if (!isDone) {
+                    return todo;
+                }
+                todo.markAsDone();
                 return todo;
             case "D":
                 LocalDate by = LocalDate.parse(parts[3]);
                 Deadline deadline = new Deadline(name, by);
-                if (isDone) deadline.markAsDone();
+                if (isDone) {
+                    deadline.markAsDone();
+                }
                 return deadline;
             case "E":
                 LocalDate from = LocalDate.parse(parts[3]);
                 LocalDate to = LocalDate.parse(parts[4]);
                 Event event = new Event(name, from, to);
-                if (isDone) event.markAsDone();
+                if (isDone) {
+                    event.markAsDone();
+                }
                 return event;
             default:
                 return null; // corrupted line

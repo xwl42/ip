@@ -1,11 +1,11 @@
 package charsiew.command;
 
-import charsiew.task.TaskList;
+import java.io.IOException;
+import charsiew.storage.Storage;
 import charsiew.task.Task;
+import charsiew.task.TaskList;
 import charsiew.task.Todo;
 import charsiew.ui.Ui;
-import charsiew.storage.Storage;
-import java.io.IOException;
 
 /**
  * Represents a command to add a Todo task to the TaskList.
