@@ -1,6 +1,7 @@
 package charsiew.command;
 
 import java.io.IOException;
+
 import charsiew.storage.Storage;
 import charsiew.task.TaskList;
 import charsiew.ui.Ui;
@@ -31,8 +32,8 @@ public class FindCommand extends Command {
      * @throws IOException if an I/O error occurs when accessing storage
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws IOException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws IOException {
         TaskList matching = tasks.findTasks(keyword);
-        ui.showTaskList(matching);
+        return ui.showTaskList(matching);
     }
 }

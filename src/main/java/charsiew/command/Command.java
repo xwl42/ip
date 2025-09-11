@@ -1,22 +1,38 @@
 package charsiew.command;
 
+import charsiew.storage.Storage;
 import charsiew.task.TaskList;
 import charsiew.ui.Ui;
-import charsiew.storage.Storage;
 
+/**
+ * Represents an abstract command in the CharSiew chatbot.
+ * Each command encapsulates a user instruction and defines how it should
+ * be executed, potentially interacting with the task list, storage, and UI.
+ * Subclasses of {@code Command} must implement the {@link #execute(TaskList, Ui, Storage)}
+ * method to provide specific behavior.
+ */
 public abstract class Command {
     /**
-     * Executes the command.
+     * Executes the command with the given task list, UI, and storage.
      *
-     * @param tasks   The TaskList containing all tasks.
-     * @param ui      The Ui handling interactions.
-     * @param storage The Storage for saving/loading tasks.
-     * @throws Exception If something goes wrong during execution.
+     * @param tasks   The {@link TaskList} containing all current tasks.
+     * @param ui      The {@link Ui} instance responsible for user interaction.
+     * @param storage The {@link Storage} instance used to save or load tasks.
+     * @return A {@link String} representing the response of this command,
+     *         typically displayed to the user.
+     * @throws Exception If an error occurs during command execution.
      */
-    public abstract void execute(TaskList tasks, Ui ui, Storage storage) throws Exception;
+    public abstract String execute(TaskList tasks, Ui ui, Storage storage) throws Exception;
 
     /**
-     * Returns true if this command exits the program.
+     * Determines whether this command signals the application to exit.
+     * <p>
+     * By default, this returns {@code false}. Commands that terminate
+     * the application (e.g., an {@code ExitCommand}) should override this.
+     * </p>
+     *
+     * @return {@code true} if the program should exit after this command,
+     *         otherwise {@code false}.
      */
     public boolean isExit() {
         return false;

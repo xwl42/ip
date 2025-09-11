@@ -1,6 +1,7 @@
 package charsiew.command;
 
 import java.io.IOException;
+
 import charsiew.storage.Storage;
 import charsiew.task.Task;
 import charsiew.task.TaskList;
@@ -31,9 +32,9 @@ public class DeleteCommand extends Command {
      * @throws IOException if saving the updated TaskList fails.
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws IOException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws IOException {
         Task t = tasks.remove(index - 1);
         storage.save(tasks);
-        ui.showDelete(t, tasks.size());
+        return ui.showDelete(t, tasks.size());
     }
 }

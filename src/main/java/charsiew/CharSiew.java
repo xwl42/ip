@@ -1,6 +1,8 @@
 package charsiew;
 
+import java.io.IOException;
 import java.util.Scanner;
+
 import charsiew.command.Command;
 import charsiew.parser.Parser;
 import charsiew.storage.Storage;
@@ -13,7 +15,7 @@ import charsiew.ui.Ui;
  */
 public class CharSiew {
     /** Handles file storage and retrieval of tasks. */
-    private final Storage storage;
+    public final Storage storage;
 
     /** Stores the current list of tasks. */
     private final TaskList tasks;
@@ -31,6 +33,7 @@ public class CharSiew {
         ui = new Ui();
         storage = new Storage(filePath);
         TaskList loadedTasks;
+
         try {
             loadedTasks = storage.load();
         } catch (Exception e) {
@@ -68,5 +71,19 @@ public class CharSiew {
      */
     public static void main(String[] args) {
         new CharSiew("data/tasks.txt").run();
+    }
+
+    /**
+     * Generates a response for the user's chat message.
+     */
+    public String getResponse(String input) throws IOException {
+        storage.save(tasks);
+
+        try {
+            Command c = new Parser().parse(input);
+            return c.execute(this.tasks, this.ui, this.storage);
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 }

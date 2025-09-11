@@ -1,10 +1,12 @@
 package charsiew;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
 import charsiew.task.Task;
 import charsiew.task.TaskList;
 import charsiew.task.Todo;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TaskListTest {
 
@@ -24,7 +26,7 @@ public class TaskListTest {
         list.add(t1);
         list.add(t2);
 
-        Task removed = list.remove(1);  // delete second task
+        Task removed = list.remove(1); // delete second task
         assertEquals("write code", removed.getName());
         assertEquals(1, list.size());
     }

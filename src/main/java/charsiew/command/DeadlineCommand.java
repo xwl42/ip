@@ -2,6 +2,7 @@ package charsiew.command;
 
 import java.io.IOException;
 import java.time.LocalDate;
+
 import charsiew.storage.Storage;
 import charsiew.task.Deadline;
 import charsiew.task.Task;
@@ -51,10 +52,10 @@ public class DeadlineCommand extends Command {
      * @throws IOException If saving to storage fails.
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws IOException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws IOException {
         Task t = new Deadline(description, by);
         tasks.add(t);
         storage.save(tasks);
-        ui.showAddedTask(t, tasks.size());
+        return ui.showAddedTask(t, tasks.size());
     }
 }

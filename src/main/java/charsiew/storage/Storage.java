@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 import charsiew.task.Deadline;
 import charsiew.task.Event;
 import charsiew.task.Task;
@@ -26,6 +27,10 @@ public class Storage {
      */
     public Storage(String filePath) {
         this.filePath = filePath;
+    }
+
+    public String getFilePath() {
+        return this.filePath;
     }
 
     /**

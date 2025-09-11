@@ -1,6 +1,7 @@
 package charsiew.command;
 
 import java.io.IOException;
+
 import charsiew.storage.Storage;
 import charsiew.task.Task;
 import charsiew.task.TaskList;
@@ -32,10 +33,10 @@ public class TodoCommand extends Command {
      * @throws IOException If saving to storage fails.
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws IOException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws IOException {
         Task t = new Todo(description);
         tasks.add(t);
         storage.save(tasks);
-        ui.showAddedTask(t, tasks.size());
+        return ui.showAddedTask(t, tasks.size());
     }
 }

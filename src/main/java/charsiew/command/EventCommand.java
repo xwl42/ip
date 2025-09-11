@@ -2,6 +2,7 @@ package charsiew.command;
 
 import java.io.IOException;
 import java.time.LocalDate;
+
 import charsiew.storage.Storage;
 import charsiew.task.Event;
 import charsiew.task.Task;
@@ -57,10 +58,10 @@ public class EventCommand extends Command {
      * @throws IOException if saving the TaskList fails.
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws IOException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws IOException {
         Task t = new Event(description, from, to);
         tasks.add(t);
         storage.save(tasks);
-        ui.showAddedTask(t, tasks.size());
+        return ui.showAddedTask(t, tasks.size());
     }
 }

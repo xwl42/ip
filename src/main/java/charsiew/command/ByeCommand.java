@@ -1,8 +1,8 @@
 package charsiew.command;
 
+import charsiew.storage.Storage;
 import charsiew.task.TaskList;
 import charsiew.ui.Ui;
-import charsiew.storage.Storage;
 
 /**
  * Represents the command to exit the CharSiew application.
@@ -18,8 +18,8 @@ public class ByeCommand extends Command {
      * @param storage The Storage object (unused in this command).
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
-        ui.showBye();
+    public String execute(TaskList tasks, Ui ui, Storage storage) {
+        return ui.showBye();
     }
 
     /**
