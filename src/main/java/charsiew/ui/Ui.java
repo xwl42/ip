@@ -15,18 +15,19 @@ public class Ui {
     /**
      * Displays a welcome message and lists available commands.
      */
-    public String showWelcome() {
-        return " Hey there! I'm Char Siew, the chatbot your mom wishes you were.\n"
-            + " What can I do for you today?\n"
-            + "   Command                                 Effect \n"
-            + " - list                                    show all tasks\n"
-            + " - todo task_name                          add a new todo task\n"
-            + " - deadline task_name /by yyyy-mm-dd       add a new deadline\n"
-            + " - event /from yyyy-mm-dd /to yyyy-mm-dd   add a new event\n"
-            + " - mark task_index                         mark the task done\n"
-            + " - unmark task_index                       mark the task undone\n"
-            + " - delete task_index                       delete the task\n"
-            + " - bye                                     exit\n";
+    public String showHelp() {
+        return "Hey there! I'm Char Siew, the chatbot your mom wishes you were.\n"
+            + "What can I do for you today?\n\n"
+            + "   Command: Effect \n"
+            + " - list: show all tasks\n"
+            + " - todo task_name: add a new todo task\n"
+            + " - deadline task_name /by yyyy-mm-dd: add a new deadline\n"
+            + " - event /from yyyy-mm-dd /to yyyy-mm-dd: add a new event\n"
+            + " - mark task_index: mark the task done\n"
+            + " - unmark task_index: mark the task undone\n"
+            + " - delete task_index: delete the task\n"
+            + " - find keyword: find all tasks whose name includes the keyword\n"
+            + " - bye: exit\n";
     }
 
     /** Displays a goodbye message. */

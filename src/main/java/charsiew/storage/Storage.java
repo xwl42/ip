@@ -11,6 +11,7 @@ import charsiew.task.Deadline;
 import charsiew.task.Event;
 import charsiew.task.Task;
 import charsiew.task.TaskList;
+import charsiew.task.TaskType;
 import charsiew.task.Todo;
 
 /**
@@ -87,26 +88,27 @@ public class Storage {
     private Task parseTask(String line) {
         try {
             String[] parts = line.split(" \\| ");
-            String type = parts[0];
+            TaskType taskType = TaskType.fromCode(parts[0]);
             boolean isDone = parts[1].equals("1");
             String name = parts[2];
 
-            switch (type) {
-            case "T":
+            switch (taskType) {
+            case TODO:
                 Todo todo = new Todo(name);
-                if (!isDone) {
-                    return todo;
+                if (isDone) {
+                    todo.markAsDone();
                 }
-                todo.markAsDone();
                 return todo;
-            case "D":
+
+            case DEADLINE:
                 LocalDate by = LocalDate.parse(parts[3]);
                 Deadline deadline = new Deadline(name, by);
                 if (isDone) {
                     deadline.markAsDone();
                 }
                 return deadline;
-            case "E":
+
+            case EVENT:
                 LocalDate from = LocalDate.parse(parts[3]);
                 LocalDate to = LocalDate.parse(parts[4]);
                 Event event = new Event(name, from, to);
@@ -114,9 +116,11 @@ public class Storage {
                     event.markAsDone();
                 }
                 return event;
+
             default:
-                return null; // corrupted line
+                return null; // shouldn't happen
             }
+
         } catch (Exception e) {
             return null; // corrupted line
         }
@@ -130,14 +134,16 @@ public class Storage {
      */
     private String formatTask(Task task) {
         String status = task.isDone() ? "1" : "0";
+
         if (task instanceof Todo) {
-            return "T | " + status + " | " + task.getName();
+            return TaskType.TODO.getCode() + " | " + status + " | " + task.getName();
         } else if (task instanceof Deadline) {
             Deadline d = (Deadline) task;
-            return "D | " + status + " | " + d.getName() + " | " + d.getBy();
+            return TaskType.DEADLINE.getCode() + " | " + status + " | " + d.getName() + " | " + d.getBy();
         } else if (task instanceof Event) {
             Event e = (Event) task;
-            return "E | " + status + " | " + e.getName() + " | " + e.getFrom() + " | " + e.getTo();
+            return TaskType.EVENT.getCode() + " | " + status + " | " + e.getName() + " | " + e.getFrom()
+                    + " | " + e.getTo();
         }
         return "";
     }
