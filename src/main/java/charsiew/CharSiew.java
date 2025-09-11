@@ -86,7 +86,6 @@ public class CharSiew {
 
         try {
             Command c = new Parser().parse(input);
-
             assert c != null : "Parser returned null for input: " + input;
             assert tasks != null : "Task list is not initialized";
             assert ui != null : "UI is not initialized";
