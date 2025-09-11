@@ -49,13 +49,18 @@ public class CharSiew {
      * and handles any exceptions that occur.
      */
     public void run() {
-        ui.showWelcome();
         Scanner sc = new Scanner(System.in);
         boolean isExit = false;
         while (!isExit) {
             try {
                 String fullCommand = sc.nextLine();
                 Command c = Parser.parse(fullCommand);
+
+                assert c != null : "Parser should never return a null command";
+                assert tasks != null : "Task list is not initialized";
+                assert ui != null : "UI is not initialized";
+                assert storage != null : "Storage is not initialized";
+
                 c.execute(tasks, ui, storage);
                 isExit = c.isExit();
             } catch (Exception e) {
@@ -81,6 +86,12 @@ public class CharSiew {
 
         try {
             Command c = new Parser().parse(input);
+
+            assert c != null : "Parser returned null for input: " + input;
+            assert tasks != null : "Task list is not initialized";
+            assert ui != null : "UI is not initialized";
+            assert storage != null : "Storage is not initialized";
+
             return c.execute(this.tasks, this.ui, this.storage);
         } catch (Exception e) {
             return e.getMessage();
