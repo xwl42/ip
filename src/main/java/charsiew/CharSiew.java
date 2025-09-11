@@ -81,6 +81,11 @@ public class CharSiew {
 
         try {
             Command c = new Parser().parse(input);
+
+            assert tasks != null : "Task list is not initialized";
+            assert ui != null : "UI is not initialized";
+            assert storage != null : "Storage is not initialized";
+
             return c.execute(this.tasks, this.ui, this.storage);
         } catch (Exception e) {
             return e.getMessage();
