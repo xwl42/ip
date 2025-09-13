@@ -37,4 +37,23 @@ public abstract class Command {
     public boolean isExit() {
         return false;
     }
+
+    /**
+     * Undo this command if possible (default: do nothing)
+     *
+     * @param tasks   The {@link TaskList} containing all current tasks.
+     * @param ui      The {@link Ui} instance responsible for user interaction.
+     * @param storage The {@link Storage} instance used to save or load tasks.
+     * @throws Exception If an error occurs during command execution.
+     */
+    public void undo(TaskList tasks, Ui ui, Storage storage) throws Exception {
+        // default implementation: do nothing
+    }
+
+    /**
+     * @return true if the command can be undone, false otherwise.
+     **/
+    public boolean canUndo() {
+        return false;
+    }
 }

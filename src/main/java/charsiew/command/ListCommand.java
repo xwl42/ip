@@ -20,4 +20,12 @@ public class ListCommand extends Command {
     public String execute(TaskList tasks, Ui ui, Storage storage) {
         return ui.showTaskList(tasks);
     }
+
+    /**
+     * @return false, a List Command cannot be undone.
+     **/
+    @Override
+    public boolean canUndo() {
+        return false;
+    }
 }

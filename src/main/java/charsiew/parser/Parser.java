@@ -1,14 +1,17 @@
 package charsiew.parser;
 
+import charsiew.CharSiew;
 import charsiew.command.ByeCommand;
 import charsiew.command.Command;
 import charsiew.command.DeadlineCommand;
 import charsiew.command.DeleteCommand;
 import charsiew.command.EventCommand;
 import charsiew.command.FindCommand;
+import charsiew.command.HelpCommand;
 import charsiew.command.ListCommand;
 import charsiew.command.MarkCommand;
 import charsiew.command.TodoCommand;
+import charsiew.command.UndoCommand;
 import charsiew.command.UnmarkCommand;
 
 /**
@@ -24,7 +27,7 @@ public class Parser {
      * @return A Command object corresponding to the input.
      * @throws Exception If the input cannot be parsed into a valid command.
      */
-    public static Command parse(String input) throws Exception {
+    public static Command parse(String input, CharSiew charSiew) throws Exception {
         String[] words = input.trim().split(" ", 2);
         String commandWord = words[0];
 
@@ -47,6 +50,10 @@ public class Parser {
             return new ByeCommand();
         case "find":
             return new FindCommand(words[1].trim());
+        case "undo":
+            return new UndoCommand(charSiew.getLastCommand());
+        case "help":
+            return new HelpCommand();
         default:
             throw new Exception("I'm not too sure what that means...");
         }

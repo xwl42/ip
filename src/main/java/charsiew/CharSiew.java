@@ -23,6 +23,9 @@ public class CharSiew {
     /** Handles all interactions with the user. */
     private final Ui ui;
 
+    /** Tracks the last command for UndoCommand*/
+    private Command lastCommand = null;
+
     /**
      * Constructs a CharSiew instance with a given storage file path.
      * Loads tasks from storage or initializes an empty TaskList if loading fails.
@@ -49,13 +52,13 @@ public class CharSiew {
      * and handles any exceptions that occur.
      */
     public void run() {
-        ui.showWelcome();
         Scanner sc = new Scanner(System.in);
         boolean isExit = false;
         while (!isExit) {
             try {
                 String fullCommand = sc.nextLine();
-                Command c = Parser.parse(fullCommand);
+                Command c = Parser.parse(fullCommand, this);
+                lastCommand = c;
                 c.execute(tasks, ui, storage);
                 isExit = c.isExit();
             } catch (Exception e) {
@@ -80,10 +83,19 @@ public class CharSiew {
         storage.save(tasks);
 
         try {
-            Command c = new Parser().parse(input);
+            Command c = new Parser().parse(input, this);
+            lastCommand = c;
             return c.execute(this.tasks, this.ui, this.storage);
         } catch (Exception e) {
             return e.getMessage();
         }
+    }
+
+    /**
+     * Returns the last command.
+     * @return Last command stored.
+     */
+    public Command getLastCommand() {
+        return lastCommand;
     }
 }

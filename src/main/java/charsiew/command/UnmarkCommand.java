@@ -38,4 +38,26 @@ public class UnmarkCommand extends Command {
         storage.save(tasks);
         return ui.showUnmark(t);
     }
+
+    /**
+     * Undo a Unmark Command
+     *
+     * @param tasks   The {@link TaskList} containing all current tasks.
+     * @param ui      The {@link Ui} instance responsible for user interaction.
+     * @param storage The {@link Storage} instance used to save or load tasks.
+     * @throws Exception If an error occurs during command execution.
+     */
+    @Override
+    public void undo(TaskList tasks, Ui ui, Storage storage) throws Exception {
+        Command c = new MarkCommand(index);
+        c.execute(tasks, ui, storage);
+    }
+
+    /**
+     * @return true, as an Unmark Command can be undone.
+     **/
+    @Override
+    public boolean canUndo() {
+        return true;
+    }
 }

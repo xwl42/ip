@@ -12,6 +12,7 @@ import charsiew.ui.Ui;
  */
 public class DeleteCommand extends Command {
     private final int index;
+    private Task deletedTask;
 
     /**
      * Constructs a DeleteCommand with the specified task index.
@@ -33,8 +34,30 @@ public class DeleteCommand extends Command {
      */
     @Override
     public String execute(TaskList tasks, Ui ui, Storage storage) throws IOException {
+        deletedTask = tasks.get(index - 1);
         Task t = tasks.remove(index - 1);
         storage.save(tasks);
         return ui.showDelete(t, tasks.size());
+    }
+
+    /**
+     * Undo a Delete Command
+     *
+     * @param tasks   The {@link TaskList} containing all current tasks.
+     * @param ui      The {@link Ui} instance responsible for user interaction.
+     * @param storage The {@link Storage} instance used to save or load tasks.
+     * @throws Exception If an error occurs during command execution.
+     */
+    @Override
+    public void undo(TaskList tasks, Ui ui, Storage storage) throws Exception {
+        tasks.add(index, deletedTask);
+    }
+
+    /**
+     * @return true, a Delete Command cannot be undone.
+     **/
+    @Override
+    public boolean canUndo() {
+        return true;
     }
 }

@@ -8,10 +8,10 @@ import charsiew.ui.Ui;
  * Represents the command to exit the CharSiew application.
  * When executed, it shows a farewell message and signals the program to terminate.
  */
-public class ByeCommand extends Command {
+public class HelpCommand extends Command {
 
     /**
-     * Executes the Bye command by displaying a farewell message.
+     * Executes the Help command by displaying a list of command available.
      *
      * @param tasks   The TaskList (unused in this command).
      * @param ui      The UI object to show messages.
@@ -19,21 +19,11 @@ public class ByeCommand extends Command {
      */
     @Override
     public String execute(TaskList tasks, Ui ui, Storage storage) {
-        return ui.showBye();
+        return ui.showHelp();
     }
 
     /**
-     * Signals that this command exits the program.
-     *
-     * @return true, indicating that the program should terminate.
-     */
-    @Override
-    public boolean isExit() {
-        return true;
-    }
-
-    /**
-     * @return false, a Bye Command cannot be undone.
+     * @return false, a Help Command cannot be undone.
      **/
     @Override
     public boolean canUndo() {

@@ -36,4 +36,12 @@ public class FindCommand extends Command {
         TaskList matching = tasks.findTasks(keyword);
         return ui.showTaskList(matching);
     }
+
+    /**
+     * @return false, a Find Command cannot be undone.
+     **/
+    @Override
+    public boolean canUndo() {
+        return false;
+    }
 }
