@@ -17,7 +17,7 @@ public class Ui {
      */
     public String showHelp() {
         return "Hey there! I'm Char Siew, the chatbot your mom wishes you were.\n"
-            + "What can I do for you today?\n"
+            + "What can I do for you today?\n\n"
             + "   Command: Effect \n"
             + " - list: show all tasks\n"
             + " - todo task_name: add a new todo task\n"
@@ -27,6 +27,7 @@ public class Ui {
             + " - unmark task_index: mark the task undone\n"
             + " - delete task_index: delete the task\n"
             + " - undo: undo the last command (if applicable)\n"
+            + " - find keyword: find all tasks whose name includes the keyword\n"
             + " - bye: exit\n";
     }
 

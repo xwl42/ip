@@ -5,8 +5,8 @@ import charsiew.task.TaskList;
 import charsiew.ui.Ui;
 
 /**
- * Represents the command to exit the CharSiew application.
- * When executed, it shows a farewell message and signals the program to terminate.
+ * Represents the command to get help information.
+ * When executed, it shows a list of all commands available for user.
  */
 public class HelpCommand extends Command {
 
