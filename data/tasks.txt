@@ -1,4 +1,4 @@
-T | 1 | hi
-T | 0 | sleep
-D | 1 | homework | 2024-08-21
 E | 0 | campus recruitment | 2025-09-11 | 2025-09-12
+T | 1 | buy groceries
+D | 1 | assignment | 2025-09-14
+T | 0 | top up card
