@@ -23,8 +23,7 @@ Once you launch CharSiew, you can type commands into the input box and press Ent
 
 - Dates must be in yyyy-mm-dd format
 
-To see a summary of all commands anytime, type:
-```help```
+To see a summary of all commands anytime, type: ```help```
 
 ## Features
 ### 1. List all tasks
